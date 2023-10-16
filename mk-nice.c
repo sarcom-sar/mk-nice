@@ -21,7 +21,7 @@ struct program_config {
 int main(int argc, char *argv[]) {
   char identifier;
   const char *style_value;
-  struct program_config config = {NULL};
+  struct program_config config = {"<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } h1,h2,h3 { line-height: 1.2 } </style>"};
   cag_option_context context;
 
   int c;
@@ -42,9 +42,11 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  while ((c = getchar()) != EOF) {
-    putchar(c);
-  }
+  // preparation for data from stdin
+  // includes <style> css
+  printf("<html>\n<head>\n%s\n</head>\n<body>", config.style);
+  while ((c = getchar()) != EOF) putchar(c);
+  printf("</body>\n</html>\n");
 
   return 0;
 }
