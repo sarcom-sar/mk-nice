@@ -5,7 +5,7 @@
 
 #define BUFF_SIZE 128
 
-char* getaline(int buffer_size);
+int getaline(char** buffer, unsigned int* buff_size);
 
 static struct cag_option options[] = {
   {.identifier = 'h',
@@ -47,29 +47,32 @@ int main(int argc, char *argv[]) {
 
   // preparation for data from stdin
   // includes <style> css
-  char* one_line;
+  unsigned int res = 0;
+  unsigned int buffer_size = 8;
+  char* one_line = (char*)malloc(buffer_size);
 
   printf("<html>\n<head>\n%s\n</head>\n<body>\n", config.style);
-  while (strlen((one_line = getaline(BUFF_SIZE))) > 0) {
+  while ((res = getaline(&one_line, &buffer_size)) > 0) {
     if (!one_line) return -1;
-    printf("<p>%s</p>\n", one_line);
+    if (strlen(one_line) != 0) printf("<p>%s</p>\n", one_line);
   }
   printf("</body>\n</html>\n");
 
   return 0;
 }
 
-char* getaline(int initial_buffer_size) {
-  char* buffer = (char*)malloc(initial_buffer_size);
+int getaline(char** buffer, unsigned int* buff_size) {
   unsigned int i = 0;
   char c;
   while (c = getchar(), c != EOF && c != '\n') {
-    buffer[i++] = c;
-    if (i >= initial_buffer_size) {
-      buffer = realloc(buffer, initial_buffer_size *= 2);
-      if (!buffer) return NULL;
+    (*buffer)[i++] = c;
+    if (i >= (*buff_size)) {
+      *buffer = realloc(*buffer, (*buff_size) *= 2);
+      if (!(*buffer)) return -1;
     }
   }
-  buffer[i] = '\0';
-  return buffer;
+  (*buffer)[i] = '\0';
+  if (c == EOF) return 0;
+  if (c == '\n') return 1;
+  return -1;
 }
