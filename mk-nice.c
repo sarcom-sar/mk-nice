@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
   unsigned int buffer_size = 8;
   char* one_line = (char*)malloc(buffer_size);
 
-  printf("<html>\n<head>\n%s\n</head>\n<body>\n", config.style);
+  printf("<html>\n<head><meta charset=\"utf-8\">\n%s\n</head>\n<body>\n", config.style);
   while ((res = getaline(&one_line, &buffer_size)) > 0) {
     if (!one_line) return -1;
     if (strlen(one_line) != 0) printf("<p>%s</p>\n", one_line);
