@@ -1,6 +1,11 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <cargs.h>
+
+#define BUFF_SIZE 128
+
+char* getaline(int buffer_size);
 
 static struct cag_option options[] = {
   {.identifier = 'h',
@@ -24,8 +29,6 @@ int main(int argc, char *argv[]) {
   struct program_config config = {"<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } h1,h2,h3 { line-height: 1.2 } </style>"};
   cag_option_context context;
 
-  int c, prev_char;
-
   cag_option_prepare(&context, options, CAG_ARRAY_SIZE(options), argc, argv);
   while (cag_option_fetch(&context)) {
     identifier = cag_option_get(&context);
@@ -44,15 +47,29 @@ int main(int argc, char *argv[]) {
 
   // preparation for data from stdin
   // includes <style> css
-  printf("<html>\n<head>\n%s\n</head>\n<body>\n<p>", config.style);
-  while ((c = getchar()) != EOF) {
-    if (c == '\n') {
-      printf("</p>\n");
-      if (prev_char == '\n') printf("<p>");
-    } else putchar(c);
-    prev_char = c;
+  char* one_line;
+
+  printf("<html>\n<head>\n%s\n</head>\n<body>\n", config.style);
+  while (strlen((one_line = getaline(BUFF_SIZE))) > 0) {
+    if (!one_line) return -1;
+    printf("<p>%s</p>\n", one_line);
   }
   printf("</body>\n</html>\n");
 
   return 0;
+}
+
+char* getaline(int initial_buffer_size) {
+  char* buffer = (char*)malloc(initial_buffer_size);
+  unsigned int i = 0;
+  char c;
+  while (c = getchar(), c != EOF && c != '\n') {
+    buffer[i++] = c;
+    if (i >= initial_buffer_size) {
+      buffer = realloc(buffer, initial_buffer_size *= 2);
+      if (!buffer) return NULL;
+    }
+  }
+  buffer[i] = '\0';
+  return buffer;
 }
