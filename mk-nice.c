@@ -5,7 +5,11 @@
 
 #define BUFF_SIZE 128
 
+char escape_char[][6] = {"&gt;", "&lt;", "&amp;", "&quot;", "&#39;"};
+enum escape_num { GREATER, LOWER, AMPERSAND, QUOTE, SIN_QUOTE, DEFAULT};
+
 int getaline(char** buffer, unsigned int* buff_size);
+int choose_char(char c);
 
 static struct cag_option options[] = {
   {.identifier = 'h',
@@ -62,17 +66,41 @@ int main(int argc, char *argv[]) {
 }
 
 int getaline(char** buffer, unsigned int* buff_size) {
+  char temp_buffer[7]; // in case you need to load escape character
+  int which_escape_char = 0;
   unsigned int i = 0;
   char c;
   while (c = getchar(), c != EOF && c != '\n') {
-    (*buffer)[i++] = c;
-    if (i >= (*buff_size)) {
-      *buffer = realloc(*buffer, (*buff_size) *= 2);
-      if (!(*buffer)) return -1;
+    which_escape_char = choose_char(c);
+    if (which_escape_char < 5) {
+      strcpy(temp_buffer, escape_char[which_escape_char]);
+      temp_buffer[6] = '\0';
+    }
+    else {
+      temp_buffer[0] = c;
+      temp_buffer[1] = '\0';
+    }
+    for (int x = 0; x < strlen(temp_buffer); x++) {
+      (*buffer)[i++] = temp_buffer[x];
+      if (i >= *(buff_size)) {
+        *buffer = realloc(*buffer, (*buff_size) *= 2);
+        if (!(*buffer)) return -1;
+      }
     }
   }
   (*buffer)[i] = '\0';
   if (c == EOF) return 0;
   if (c == '\n') return 1;
   return -1;
+}
+
+int choose_char(char c) {
+  switch(c) {
+    case '>': return GREATER;
+    case '<': return LOWER;
+    case '&': return AMPERSAND;
+    case '\"': return QUOTE;
+    case '\'': return SIN_QUOTE;
+  }
+  return DEFAULT;
 }

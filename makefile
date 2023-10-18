@@ -58,7 +58,7 @@ test_04:
 	@echo "Donec vitae dolor.\n\nLorem ipsum dolor sit amet, consectetuer adipiscing elit.\n" > test_04
 
 test_05:
-	@echo "<>&\"\'" > test_05
+	@echo "<>&\"'\nLorem ipsum dolor sit amet, consectetuer adipiscing elit.\n" > test_05
 
 clean:
 	rm mk-nice $(wildcard test_*) $(wildcard result_*) $(wildcard standard_*)
