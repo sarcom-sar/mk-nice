@@ -1,2 +1,2 @@
 #!/bin/bash
-./mk-nice < $1 | chromium "data:text/html;base64,$(base64 -w 0 <&0)"
+./mk-nice < $1 | xdg-open "data:text/html;base64,$(base64 -w 0 <&0)"
