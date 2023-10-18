@@ -2,5 +2,4 @@
 !*.*
 !.gitignore
 !makefile
-!nice_read
 *.o
