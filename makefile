@@ -30,6 +30,9 @@ standard_04:
 standard_05:
 	@echo "<html>\n<head>\n<meta charset=\"utf-8\">\n<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } h1,h2,h3 { line-height: 1.2 } </style>\n</head>\n<body>\n<p>&lt;&gt;&amp;&quot;&#39;</p>\n<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>\n</body>\n</html>" > standard_05
 
+standard_06:
+	@echo "<html>\n<head>\n<meta charset=\"utf-8\">\n<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } p { line-height: 1.2 } </style>\n</head>\n<body>\n</body>\n</html>" > standard_06
+
 result_01: test_01
 	@./mk-nice < $? > $@
 
@@ -45,6 +48,9 @@ result_04: test_04
 result_05: test_05
 	@./mk-nice < $? > $@
 
+result_06: test_06
+	@./mk-nice -s "body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } p { line-height: 1.2 "< $? > $@
+
 test_01:
 	@echo "" > test_01
 
@@ -59,6 +65,9 @@ test_04:
 
 test_05:
 	@echo "<>&\"'\nLorem ipsum dolor sit amet, consectetuer adipiscing elit.\n" > test_05
+
+test_06:
+	@echo "" > test_06
 
 clean:
 	rm mk-nice $(wildcard test_*) $(wildcard result_*) $(wildcard standard_*)
