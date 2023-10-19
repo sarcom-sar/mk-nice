@@ -13,6 +13,7 @@ static struct cag_option options[] = {
   {.identifier = 's',
    .access_letters = "s",
    .access_name = "style",
+   .value_name = "STYLE",
    .description = "Inject custom css in place of default"}
 };
 
