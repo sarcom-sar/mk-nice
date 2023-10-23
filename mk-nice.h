@@ -2,7 +2,7 @@
 #define MK_NICE
 
 char escape_char[][6] = {"&gt;", "&lt;", "&amp;", "&quot;", "&#39;"};
-enum escape_num { GREATER, LOWER, AMPERSAND, QUOTE, SIN_QUOTE, DEFAULT};
+enum escape_num { GREATER, LOWER, AMPERSAND, QUOTE, SIN_QUOTE, ESC_QUOTE, DEFAULT};
 
 static struct cag_option options[] = {
   {.identifier = 'h',

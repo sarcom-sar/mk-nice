@@ -36,7 +36,7 @@ standard_06:
 	@echo "<html>\n<head>\n<meta charset=\"utf-8\">\n<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } p { line-height: 1.2 } </style>\n</head>\n<body>\n</body>\n</html>" > $@
 
 standard_07:
-	@echo "<html>\n<head>\n<meta charset=\"utf-8\">\n<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } p { line-height: 1.2 } </style>\n</head>\n<body>\n<p><>&\"'</p>\n</body>\n</html>" > $@
+	@echo "<html>\n<head>\n<meta charset=\"utf-8\">\n<style type=\"text/css\"> body { margin: 40px auto; max-width: 650px; line-height: 1.6; font-size: 18px; color: #444; padding: 0 10px } h1,h2,h3 { line-height: 1.2 } </style>\n</head>\n<body>\n<p><>&\"'</p>\n</body>\n</html>" > $@
 
 result_01: test_01
 	@./mk-nice < $? > $@
