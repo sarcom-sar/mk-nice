@@ -83,8 +83,9 @@ test_05:
 test_06:
 	@echo "" > $@
 
+# escapes for special html characters
 test_07:
 	@echo "\\<\\>\\&\\\"\\'" > $@
 
 clean:
-	rm mk-nice $(wildcard test_*) $(wildcard result_*) $(wildcard standard_*)
+	rm mk-nice $(wildcard *.o) $(wildcard test_*) $(wildcard result_*) $(wildcard standard_*)
